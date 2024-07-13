@@ -26,6 +26,7 @@ struct ContentView: View {
     @State private var inputUnit = LenghtUnits.kilometers.title
     @State private var outputUnit = LenghtUnits.miles.title
     @State private var inputValue = 1.0
+    @FocusState private var inputValueIsFocused: Bool
     
     let units = [
         LenghtUnits.kilometers,
@@ -50,7 +51,7 @@ struct ContentView: View {
                 Section("Input value") {
                     TextField("Input value", value: $inputValue, format: .number)
                         .keyboardType(.decimalPad)
-                    
+                        .focused($inputValueIsFocused)
                 }
                 
                 Section("Input unit") {
@@ -77,6 +78,15 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Lenght Converter")
+            .toolbar {
+                if inputValueIsFocused {
+                    Button(action: {
+                        inputValueIsFocused = false
+                    }, label: {
+                        Text("Done")
+                    })
+                }
+            }
         }
     }
 }
